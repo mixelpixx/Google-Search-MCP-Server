@@ -4,6 +4,10 @@
 
 An MCP (Model Context Protocol) server that provides Google search capabilities and webpage content analysis tools. This server enables AI models to perform Google searches and analyze webpage content programmatically.
 
+<a href="https://glama.ai/mcp/servers/8m8reyzrcd">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/8m8reyzrcd/badge" alt="Google Search Server MCP server" />
+</a>
+
 ## Features
 
 - Advanced Google Search with filtering options (date, language, country, safe search)
