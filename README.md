@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/mixelpixx-google-search-mcp-server-badge.png)](https://mseep.ai/app/mixelpixx-google-search-mcp-server)
+
 # Version 2.0 is here!!
 # NEWS - my NEW 'KiCAD MCP Server' is here, along with this 'Google Search MCP Server' they are a powerful duo!
 https://github.com/mixelpixx/KiCAD-MCP-Server
