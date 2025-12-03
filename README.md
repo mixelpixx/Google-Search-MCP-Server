@@ -26,7 +26,7 @@ This MCP server transforms Google search into a powerful research tool by:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone <https://github.com/mixelpixx/Google-Search-MCP-Server>
 cd Google-Research-MCP
 
 # Install dependencies
@@ -446,3 +446,4 @@ For issues, questions, or feature requests, please open an issue on GitHub.
 **Status:** Production Ready
 **Version:** 3.0.0
 **Last Updated:** 2025-11-07
+
