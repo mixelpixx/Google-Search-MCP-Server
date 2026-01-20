@@ -3,6 +3,14 @@
   "version": "3.0.0",
   "description": "Enhanced MCP server for Google search with AI-powered research synthesis, source quality assessment, and deduplication",
   "type": "module",
+  "bin": {
+    "google-search-mcp": "./dist/google-search-v3.js"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    ".env.example"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "node dist/google-search.js",
