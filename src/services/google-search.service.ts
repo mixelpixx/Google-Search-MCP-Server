@@ -224,11 +224,92 @@ export class GoogleSearchService {
         pagination,
         categories
       };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Google Search API error: ${error.message}`);
+    } catch (error: any) {
+      // Rate limit (429) - most common issue
+      if (error.response?.status === 429 || error.code === 429) {
+        throw new Error(
+          '⚠️ Google API Rate Limit Exceeded\n' +
+          '• Free tier: 100 queries/day (you hit the limit)\n' +
+          '• Solution 1: Wait until tomorrow for reset\n' +
+          '• Solution 2: Enable billing at https://console.cloud.google.com/\n' +
+          '• Cost: $5 per 1,000 queries after free tier\n' +
+          '• Monitor usage: https://console.cloud.google.com/apis/dashboard'
+        );
       }
-      throw new Error('Unknown error during Google search');
+
+      // Forbidden (403) - API key or quota issues
+      if (error.response?.status === 403 || error.code === 403) {
+        const errorDetails = error.response?.data?.error?.message || error.message || '';
+
+        // Check if it's a "API not enabled" error
+        if (errorDetails.includes('disabled') || errorDetails.includes('not been used') || errorDetails.includes('not enabled')) {
+          throw new Error(
+            '⚠️ Custom Search API Not Enabled\n' +
+            '• Go to: https://console.cloud.google.com/apis/library/customsearch.googleapis.com\n' +
+            '• Click "Enable" for Custom Search API\n' +
+            '• Wait 2-3 minutes for activation'
+          );
+        }
+
+        // Check if it's a billing/quota issue
+        if (errorDetails.includes('quota') || errorDetails.includes('billing') || errorDetails.includes('exceeded')) {
+          throw new Error(
+            '⚠️ API Quota/Billing Issue\n' +
+            '• You exceeded the free 100 queries/day\n' +
+            '• Enable billing: https://console.cloud.google.com/billing\n' +
+            '• Or wait until tomorrow for quota reset'
+          );
+        }
+
+        // Generic 403
+        throw new Error(
+          '⚠️ API Access Denied (403)\n' +
+          '• Check your API key is correct in .env file\n' +
+          '• Verify Custom Search API is enabled\n' +
+          '• Check billing is enabled if over 100 queries/day\n' +
+          `• Error details: ${errorDetails}`
+        );
+      }
+
+      // Invalid API key (400)
+      if (error.response?.status === 400 || error.code === 400) {
+        throw new Error(
+          '⚠️ Invalid API Request\n' +
+          '• Check GOOGLE_API_KEY in your .env file\n' +
+          '• Check GOOGLE_SEARCH_ENGINE_ID (cx parameter)\n' +
+          '• Verify both are correctly formatted'
+        );
+      }
+
+      // Generic API errors with response
+      if (error.response) {
+        throw new Error(
+          `⚠️ Google API Error (${error.response.status})\n` +
+          `• Status: ${error.response.status}\n` +
+          `• Message: ${error.response?.data?.error?.message || 'Unknown error'}\n` +
+          `• If this persists, check https://status.cloud.google.com/`
+        );
+      }
+
+      // Network errors (no response from server)
+      if (error.request || error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+        throw new Error(
+          '⚠️ Network Error - Cannot Reach Google API\n' +
+          '• Check your internet connection\n' +
+          '• Verify firewall/proxy settings\n' +
+          '• Check https://status.cloud.google.com/ for outages'
+        );
+      }
+
+      // Unknown errors - preserve original message
+      if (error instanceof Error) {
+        throw new Error(
+          `⚠️ Google Search Error\n` +
+          `• ${error.message}\n` +
+          `• Check logs for details`
+        );
+      }
+      throw new Error('⚠️ Unknown error during Google search');
     }
   }
   
