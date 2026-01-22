@@ -4,6 +4,49 @@
 
 An advanced Model Context Protocol (MCP) server that provides comprehensive Google search capabilities, webpage content extraction, and AI-powered research synthesis. Built for Claude Code, Claude Desktop, and other MCP-compatible clients.
 
+## ⚠️ CRITICAL: Google API Status (Updated January 2026)
+
+### 🚨 For New Users - API Closed
+
+**Google has CLOSED the Custom Search JSON API to new customers as of 2024.**
+
+**If you don't have a Google Custom Search API key already:**
+- ❌ You CANNOT get one anymore
+- ✅ See [ALTERNATIVES.md](ALTERNATIVES.md) for working solutions (SerpAPI, ScraperAPI, etc.)
+- ✅ Existing users with API keys can continue using this tool
+
+### ⚠️ For Existing Users - Important Limits
+
+**Free Tier Limits:**
+- 100 queries per day FREE
+- After 100: $5 per 1,000 queries (max 10k/day)
+- **This is usually why "not working" errors occur**
+
+**Monitor Your Usage:**
+- Dashboard: https://console.cloud.google.com/apis/dashboard
+- Enable billing: https://console.cloud.google.com/billing
+
+**Sunset Date:**
+- Google will retire this API on **January 1, 2027**
+- Start planning migration to alternatives
+
+### 💡 Quick Troubleshooting
+
+**Error: "not working" or "403 Forbidden"**
+1. Check if you hit the 100/day limit (wait until tomorrow or enable billing)
+2. Verify API is enabled: https://console.cloud.google.com/apis/library/customsearch.googleapis.com
+3. Check your API key is correct in `.env`
+
+**Error: "429 Too Many Requests"**
+- You exceeded 100 queries/day
+- Wait for midnight UTC reset OR enable billing
+
+**Need more than 100/day?**
+- Enable billing: https://console.cloud.google.com/billing
+- Cost: $5 per 1,000 queries
+
+---
+
 ## Overview
 
 This MCP server transforms Google search into a powerful research tool by:
