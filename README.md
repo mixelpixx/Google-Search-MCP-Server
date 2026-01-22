@@ -1,3 +1,28 @@
+## ⚠️ IMPORTANT: Google API Limitations (Updated Jan 2026)
+
+### For New Users
+**Google has CLOSED the Custom Search JSON API to new customers.** If you don't already have a Google API key:
+- You CANNOT get one anymore for this API
+
+### For Existing Users
+Your API key still works, but be aware:
+- **100 queries/day FREE limit** - it was 1000 i think..
+- After 100: $5 per 1,000 queries (max 10k/day)
+- Hitting limits causes "not working" errors
+- Monitor usage: [Google Cloud Console](https://console.cloud.google.com/)
+
+### The API Will Sunset Jan 1, 2027
+Google has announced existing Custom Search JSON API customers must transition by **January 1, 2027**.
+
+Let me know what backend we should go with now, or if we want to adept to Googles new $ for searches.
+Im afraid this is the future though, any input from you guys is welcome.
+
+email me: nate.slidebyone.summers@gmail.com
+
+
+
+
+
 # Google Research MCP Server
 
 **Version 3.0.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication.
