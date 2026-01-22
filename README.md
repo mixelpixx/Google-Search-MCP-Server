@@ -1,3 +1,10 @@
+## What backend should we move to?  Or dont change and continue with Google?  It feels like whatevr I / We decide, we are gonna pay for search in the future.
+
+Ideas, suggestions welcome.  Let me know what you think, where do go?
+
+nate.slidebyone.summers@gmail.com
+
+
 # Google Research MCP Server
 
 **Version 3.0.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication.
@@ -8,7 +15,7 @@ An advanced Model Context Protocol (MCP) server that provides comprehensive Goog
 
 ### 🚨 For New Users - API Closed
 
-**Google has CLOSED the Custom Search JSON API to new customers as of 2024.**
+**Google has CLOSED the Custom Search JSON API to new customers as of Jan, 20th 2026.**
 
 **If you don't have a Google Custom Search API key already:**
 - ❌ You CANNOT get one anymore
