@@ -1,35 +1,51 @@
-## ⚠️ IMPORTANT: Google API Limitations (Updated Jan 2026)
-
-### For New Users
-**Google has CLOSED the Custom Search JSON API to new customers.** If you don't already have a Google API key:
-- You CANNOT get one anymore for this API
-
-### For Existing Users
-Your API key still works, but be aware:
-- **100 queries/day FREE limit** - it was 1000 i think..
-- After 100: $5 per 1,000 queries (max 10k/day)
-- Hitting limits causes "not working" errors
-- Monitor usage: [Google Cloud Console](https://console.cloud.google.com/)
-
-### The API Will Sunset Jan 1, 2027
-Google has announced existing Custom Search JSON API customers must transition by **January 1, 2027**.
-
-https://programmablesearchengine.googleblog.com/2026/01/updates-to-our-web-search-products.html
-
-Let me know what backend we should go with now, or if we want to adapt to Googles new $ for searches.
-Im afraid this is the future though, any input from you guys is welcome.
-
-email me: nate.slidebyone.summers@gmail.com
-
-
-
-
-
 # Google Research MCP Server
 
 **Version 3.0.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication.
 
 An advanced Model Context Protocol (MCP) server that provides comprehensive Google search capabilities, webpage content extraction, and AI-powered research synthesis. Built for Claude Code, Claude Desktop, and other MCP-compatible clients.
+
+## ⚠️ CRITICAL: Google API Status (Updated January 2026)
+
+### 🚨 For New Users - API Closed
+
+**Google has CLOSED the Custom Search JSON API to new customers as of 2024.**
+
+**If you don't have a Google Custom Search API key already:**
+- ❌ You CANNOT get one anymore
+- ✅ See [ALTERNATIVES.md](ALTERNATIVES.md) for working solutions (SerpAPI, ScraperAPI, etc.)
+- ✅ Existing users with API keys can continue using this tool
+
+### ⚠️ For Existing Users - Important Limits
+
+**Free Tier Limits:**
+- 100 queries per day FREE
+- After 100: $5 per 1,000 queries (max 10k/day)
+- **This is usually why "not working" errors occur**
+
+**Monitor Your Usage:**
+- Dashboard: https://console.cloud.google.com/apis/dashboard
+- Enable billing: https://console.cloud.google.com/billing
+
+**Sunset Date:**
+- Google will retire this API on **January 1, 2027**
+- Start planning migration to alternatives
+
+### 💡 Quick Troubleshooting
+
+**Error: "not working" or "403 Forbidden"**
+1. Check if you hit the 100/day limit (wait until tomorrow or enable billing)
+2. Verify API is enabled: https://console.cloud.google.com/apis/library/customsearch.googleapis.com
+3. Check your API key is correct in `.env`
+
+**Error: "429 Too Many Requests"**
+- You exceeded 100 queries/day
+- Wait for midnight UTC reset OR enable billing
+
+**Need more than 100/day?**
+- Enable billing: https://console.cloud.google.com/billing
+- Cost: $5 per 1,000 queries
+
+---
 
 ## Overview
 
