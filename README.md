@@ -1,6 +1,6 @@
-## What backend should we move to?  Or dont change and continue with Google?  It feels like whatevr I / We decide, we are gonna pay for search in the future.
+## What backend should we move to?  Or dont change and continue with Google?  It feels like whatever I / We decide, we are gonna pay for search in the future.
 
-Ideas, suggestions welcome.  Let me know what you think, where do go?
+Ideas, suggestions welcome.  Let me know what you think, where do we go from here?
 
 nate.slidebyone.summers@gmail.com
 
