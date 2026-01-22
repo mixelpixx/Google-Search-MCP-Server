@@ -4,33 +4,92 @@
 
 An advanced Model Context Protocol (MCP) server that provides comprehensive Google search capabilities, webpage content extraction, and AI-powered research synthesis. Built for Claude Code, Claude Desktop, and other MCP-compatible clients.
 
-## ⚠️ CRITICAL: Google API Status (Updated January 2026)
+## Multi-Provider Search Support (v3.0+)
 
-### 🚨 For New Users - API Closed
+**NEW:** This server now supports multiple search providers! Choose the best option for your needs.
+
+### Supported Search Providers
+
+| Provider | Free Tier | Paid Pricing | Status | Best For |
+|----------|-----------|--------------|--------|----------|
+| **Brave** (Recommended) | 2,000/month | $3/mo (5k) | Active | General use, privacy, cost-effective |
+| **Tavily** | 1,000/month | $30/mo (4k) | Active | AI research, synthesis, quality |
+| **Google** | 100/day | $5/1k queries | Sunsets 2027 | Legacy users only |
+
+**Recommended**: Use **Brave** for most use cases (10-20x better free tier than Google).
+
+### Quick Setup by Provider
+
+#### Brave Search (Recommended)
+
+```bash
+# Get free API key: https://api.search.brave.com/app/keys
+SEARCH_PROVIDER=brave
+BRAVE_API_KEY=your_brave_api_key_here
+```
+
+- 2,000 free queries/month (no credit card)
+- Privacy-focused, no tracking
+- $3/month for 5,000 queries
+- No sunset date announced
+
+#### Tavily Search (For AI Research)
+
+```bash
+# Get API key: https://app.tavily.com/sign-in
+SEARCH_PROVIDER=tavily
+TAVILY_API_KEY=your_tavily_api_key_here
+```
+
+- 1,000 free queries/month
+- AI-optimized with quality scoring
+- Advanced search depth (10-30s per query)
+- Best for synthesis and research
+
+#### Google Custom Search (Legacy)
+
+```bash
+# Only if you already have an API key
+SEARCH_PROVIDER=google
+GOOGLE_API_KEY=your_google_api_key_here
+GOOGLE_SEARCH_ENGINE_ID=your_search_engine_id_here
+```
+
+- API **sunsets January 1, 2027**
+- Closed to new users (2024)
+- Only 100 queries/day free
+- Higher costs ($5/1,000 queries)
+
+**Migration Guide**: See [MIGRATION.md](MIGRATION.md) for detailed migration instructions.
+
+---
+
+## Google API Status (For Legacy Users)
+
+### For New Users
 
 **Google has CLOSED the Custom Search JSON API to new customers as of 2024.**
 
-**If you don't have a Google Custom Search API key already:**
-- ❌ You CANNOT get one anymore
-- ✅ See [ALTERNATIVES.md](ALTERNATIVES.md) for working solutions (SerpAPI, ScraperAPI, etc.)
-- ✅ Existing users with API keys can continue using this tool
+**If you don't have a Google API key:**
+- You CANNOT get one anymore
+- Use **Brave** or **Tavily** instead (see above)
+- Both providers work with all MCP tools
 
-### ⚠️ For Existing Users - Important Limits
+### For Existing Google Users
 
-**Free Tier Limits:**
+**Important Dates:**
+- **January 1, 2027**: Google Custom Search API **sunsets**
+- **Action Required**: Migrate to Brave or Tavily (see [MIGRATION.md](MIGRATION.md))
+
+**Current Limits:**
 - 100 queries per day FREE
 - After 100: $5 per 1,000 queries (max 10k/day)
-- **This is usually why "not working" errors occur**
 
 **Monitor Your Usage:**
 - Dashboard: https://console.cloud.google.com/apis/dashboard
 - Enable billing: https://console.cloud.google.com/billing
 
-**Sunset Date:**
-- Google will retire this API on **January 1, 2027**
-- Start planning migration to alternatives
-
-### 💡 Quick Troubleshooting
+### Quick Troubleshooting
 
 **Error: "not working" or "403 Forbidden"**
 1. Check if you hit the 100/day limit (wait until tomorrow or enable billing)
@@ -92,20 +151,67 @@ cd Google-Research-MCP
 # Install dependencies
 npm install
 
+# Optional: Install Google API support (only if using Google provider)
+# Note: googleapis is now optional - only install if you need Google
+npm install googleapis
+
 # Build the project
 npm run build
 ```
+
+**Note**: The `googleapis` package is now optional. If you're using Brave or Tavily, you don't need to install it. This reduces installation size and dependencies.
 
 ### Configuration
 
 Create a `.env` file in the project root:
 
+#### For Brave (Recommended)
+
 ```bash
+SEARCH_PROVIDER=brave
+BRAVE_API_KEY=your_brave_api_key_here
+```
+
+#### For Tavily
+
+```bash
+SEARCH_PROVIDER=tavily
+TAVILY_API_KEY=your_tavily_api_key_here
+```
+
+#### For Google (Legacy)
+
+```bash
+SEARCH_PROVIDER=google  # Optional, defaults to google for backwards compatibility
 GOOGLE_API_KEY=your_google_api_key
 GOOGLE_SEARCH_ENGINE_ID=your_custom_search_engine_id
 ```
 
 **Note:** No Anthropic API key is required. The server uses agent-based synthesis that leverages your existing Claude session.
+
+### Usage Tracking (Optional)
+
+Track your API usage and costs to prevent unexpected bills:
+
+```bash
+# Enable usage tracking
+USAGE_TRACKING_ENABLED=true
+
+# Persist tracking to SQLite database (optional)
+USAGE_TRACKING_PERSIST=true
+USAGE_TRACKING_DB_PATH=./.mcp-usage-tracking.db
+
+# Set thresholds for warnings (optional)
+USAGE_MAX_SEARCHES_PER_MONTH=2000  # Alert at 80% and 100%
+USAGE_MAX_COST_PER_MONTH=10.00     # In USD
+```
+
+**Benefits:**
+- Monitor usage across all providers
+- Get warnings at 80% and 100% of limits
+- Prevent quota overruns
+- Track estimated costs
+- Historical data with SQLite persistence
 
 ### Running the Server
 
@@ -117,11 +223,14 @@ npm run start:v3
 npm run start:v3:http
 ```
 
-Expected output:
+Expected output (with Brave):
 ```
 ============================================================
 Google Research MCP Server v3.0.0 (Enhanced)
 ============================================================
+Initializing search provider: brave
+✓ Using Brave Search as search provider
+  Free tier: 2,000 queries/month
 ✓ Source quality assessment
 ✓ Deduplication
 ✓ AI synthesis: AGENT MODE (Claude will launch agents)
@@ -131,6 +240,22 @@ Google Research MCP Server v3.0.0 (Enhanced)
 ✓ Cache metadata
 ============================================================
 Server running on STDIO
+```
+
+Expected output (with Google):
+```
+Initializing search provider: google
+✓ Using Google Custom Search as search provider
+  Free tier: 100 queries/day
+WARNING: Google Custom Search will sunset on January 1, 2027
+    Consider migrating to Brave Search: https://brave.com/search/api/
+```
+
+With usage tracking enabled:
+```
+✓ Using Brave Search as search provider
+✓ Usage tracking enabled
+✓ Usage tracking database initialized: ./.mcp-usage-tracking.db
 ```
 
 ## Features
