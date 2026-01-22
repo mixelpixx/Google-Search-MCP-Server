@@ -14,6 +14,8 @@ Your API key still works, but be aware:
 ### The API Will Sunset Jan 1, 2027
 Google has announced existing Custom Search JSON API customers must transition by **January 1, 2027**.
 
+https://programmablesearchengine.googleblog.com/2026/01/updates-to-our-web-search-products.html
+
 Let me know what backend we should go with now, or if we want to adept to Googles new $ for searches.
 Im afraid this is the future though, any input from you guys is welcome.
 
