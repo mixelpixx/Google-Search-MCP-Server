@@ -5,7 +5,7 @@ Ideas, suggestions welcome.  Let me know what you think, where do we go from her
 nate.slidebyone.summers@gmail.com
 
 
-# Google Research MCP Server
+# Google Search MCP Server
 
 **Version 3.0.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication.
 
