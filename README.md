@@ -68,7 +68,7 @@ GOOGLE_SEARCH_ENGINE_ID=your_search_engine_id_here
 
 ### For New Users
 
-**Google has CLOSED the Custom Search JSON API to new customers as of 2024.**
+**Google has CLOSED the Custom Search JSON API to new customers as of 2026.**
 
 **If you don't have a Google API key:**
 - You CANNOT get one anymore
