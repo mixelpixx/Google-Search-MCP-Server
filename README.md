@@ -16,7 +16,7 @@ Google has announced existing Custom Search JSON API customers must transition b
 
 https://programmablesearchengine.googleblog.com/2026/01/updates-to-our-web-search-products.html
 
-Let me know what backend we should go with now, or if we want to adept to Googles new $ for searches.
+Let me know what backend we should go with now, or if we want to adapt to Googles new $ for searches.
 Im afraid this is the future though, any input from you guys is welcome.
 
 email me: nate.slidebyone.summers@gmail.com
