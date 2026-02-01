@@ -1,3 +1,7 @@
+## Check out the 'Serp API' Branch
+https://github.com/mixelpixx/Google-Search-MCP-Server/tree/serpapi-only
+
+
 # Google Research MCP Server
 
 **Version 3.0.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication.
