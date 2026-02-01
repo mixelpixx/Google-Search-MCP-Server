@@ -68,6 +68,10 @@ web_modules/
 .env.production.local
 .env.*.local
 
+# API key files - CRITICAL: Never commit these
+serp-api-key.txt
+*-api-key.txt
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

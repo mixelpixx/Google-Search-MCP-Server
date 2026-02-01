@@ -1,108 +1,33 @@
-# Google Research MCP Server
+# Google Search MCP Server (SerpAPI Edition)
 
-**Version 3.0.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication.
+**Version 4.2.0** - Enhanced research synthesis with intelligent source quality assessment and deduplication, powered by SerpAPI.
 
-An advanced Model Context Protocol (MCP) server that provides comprehensive Google search capabilities, webpage content extraction, and AI-powered research synthesis. Built for Claude Code, Claude Desktop, and other MCP-compatible clients.
+An advanced Model Context Protocol (MCP) server that provides comprehensive Google search capabilities via SerpAPI, webpage content extraction, and AI-powered research synthesis. Built for Claude Code, Claude Desktop, and other MCP-compatible clients.
 
-## Multi-Provider Search Support (v3.0+)
+> **Note:** This is the `serpapi-only` branch - a standalone version focused exclusively on SerpAPI as the search provider. This branch will remain separate from the multi-provider main branch and provides a simpler, streamlined experience with SerpAPI.
 
-**NEW:** This server now supports multiple search providers! Choose the best option for your needs.
+## Search Provider: SerpAPI
 
-### Supported Search Providers
+This server uses **SerpAPI** to provide reliable Google search results through a simple, well-maintained API.
 
-| Provider | Free Tier | Paid Pricing | Status | Best For |
-|----------|-----------|--------------|--------|----------|
-| **Brave** (Recommended) | 2,000/month | $3/mo (5k) | Active | General use, privacy, cost-effective |
-| **Tavily** | 1,000/month | $30/mo (4k) | Active | AI research, synthesis, quality |
-| **Google** | 100/day | $5/1k queries | Sunsets 2027 | Legacy users only |
+### Why SerpAPI?
 
-**Recommended**: Use **Brave** for most use cases (10-20x better free tier than Google).
+- **Simple Setup** - Only one API key needed (no complex Google Cloud configuration)
+- **Reliable** - Not being sunset like Google's official Custom Search API
+- **Good Free Tier** - 100 searches/month for development and testing
+- **Affordable** - $50/month for 5,000 searches ($0.01 per search)
+- **Better Documentation** - Clear API docs and helpful error messages
+- **More Features** - Easy access to Google Images, News, Videos, etc.
 
-### Quick Setup by Provider
+### Pricing
 
-#### Brave Search (Recommended)
+| Tier | Searches/Month | Cost | Best For |
+|------|----------------|------|----------|
+| **Free** | 100 | $0 | Development, testing |
+| **Starter** | 5,000 | $50/mo | Personal projects |
+| **Professional** | 15,000 | $125/mo | Production use |
 
-```bash
-# Get free API key: https://api.search.brave.com/app/keys
-SEARCH_PROVIDER=brave
-BRAVE_API_KEY=your_brave_api_key_here
-```
-
-- 2,000 free queries/month (no credit card)
-- Privacy-focused, no tracking
-- $3/month for 5,000 queries
-- No sunset date announced
-
-#### Tavily Search (For AI Research)
-
-```bash
-# Get API key: https://app.tavily.com/sign-in
-SEARCH_PROVIDER=tavily
-TAVILY_API_KEY=your_tavily_api_key_here
-```
-
-- 1,000 free queries/month
-- AI-optimized with quality scoring
-- Advanced search depth (10-30s per query)
-- Best for synthesis and research
-
-#### Google Custom Search (Legacy)
-
-```bash
-# Only if you already have an API key
-SEARCH_PROVIDER=google
-GOOGLE_API_KEY=your_google_api_key_here
-GOOGLE_SEARCH_ENGINE_ID=your_search_engine_id_here
-```
-
-- API **sunsets January 1, 2027**
-- Closed to new users (2024)
-- Only 100 queries/day free
-- Higher costs ($5/1,000 queries)
-
-**Migration Guide**: See [MIGRATION.md](MIGRATION.md) for detailed migration instructions.
-
----
-
-## Google API Status (For Legacy Users)
-
-### For New Users
-
-**Google has CLOSED the Custom Search JSON API to new customers as of 2024.**
-
-**If you don't have a Google API key:**
-- You CANNOT get one anymore
-- Use **Brave** or **Tavily** instead (see above)
-- Both providers work with all MCP tools
-
-### For Existing Google Users
-
-**Important Dates:**
-- **January 1, 2027**: Google Custom Search API **sunsets**
-- **Action Required**: Migrate to Brave or Tavily (see [MIGRATION.md](MIGRATION.md))
-
-**Current Limits:**
-- 100 queries per day FREE
-- After 100: $5 per 1,000 queries (max 10k/day)
-
-**Monitor Your Usage:**
-- Dashboard: https://console.cloud.google.com/apis/dashboard
-- Enable billing: https://console.cloud.google.com/billing
-
-### Quick Troubleshooting
-
-**Error: "not working" or "403 Forbidden"**
-1. Check if you hit the 100/day limit (wait until tomorrow or enable billing)
-2. Verify API is enabled: https://console.cloud.google.com/apis/library/customsearch.googleapis.com
-3. Check your API key is correct in `.env`
-
-**Error: "429 Too Many Requests"**
-- You exceeded 100 queries/day
-- Wait for midnight UTC reset OR enable billing
-
-**Need more than 100/day?**
-- Enable billing: https://console.cloud.google.com/billing
-- Cost: $5 per 1,000 queries
+Get your API key at: **https://serpapi.com/manage-api-key**
 
 ---
 
@@ -121,8 +46,7 @@ This MCP server transforms Google search into a powerful research tool by:
 ### Prerequisites
 
 - Node.js 18 or higher
-- Google Cloud Platform account with Custom Search API enabled
-- Google Custom Search Engine ID
+- SerpAPI account (free tier available)
 
 ### Installation
 
@@ -131,11 +55,17 @@ This MCP server transforms Google search into a powerful research tool by:
 Run directly without cloning:
 
 ```bash
-# Set environment variables and run
-GOOGLE_API_KEY=your_key GOOGLE_SEARCH_ENGINE_ID=your_id npx google-search-mcp
+# Set environment variable and run
+SERPAPI_KEY=your_key npx google-search-mcp
 ```
 
-Or create a `.env` file in your working directory with your credentials, then run:
+Or create a `.env` file in your working directory:
+
+```bash
+SERPAPI_KEY=your_serpapi_key_here
+```
+
+Then run:
 
 ```bash
 npx google-search-mcp
@@ -145,47 +75,32 @@ npx google-search-mcp
 
 ```bash
 # Clone the repository
-git clone <https://github.com/mixelpixx/Google-Search-MCP-Server>
-cd Google-Research-MCP
+git clone https://github.com/mixelpixx/Google-Search-MCP-Server
+cd Google-Search-MCP-Server
 
 # Install dependencies
 npm install
-
-# Optional: Install Google API support (only if using Google provider)
-# Note: googleapis is now optional - only install if you need Google
-npm install googleapis
 
 # Build the project
 npm run build
 ```
 
-**Note**: The `googleapis` package is now optional. If you're using Brave or Tavily, you don't need to install it. This reduces installation size and dependencies.
-
 ### Configuration
 
 Create a `.env` file in the project root:
 
-#### For Brave (Recommended)
-
 ```bash
-SEARCH_PROVIDER=brave
-BRAVE_API_KEY=your_brave_api_key_here
+# Required: Your SerpAPI key
+SERPAPI_KEY=your_serpapi_key_here
+
+# Optional: Usage tracking
+USAGE_TRACKING_ENABLED=true
+USAGE_TRACKING_PERSIST=true
+USAGE_MAX_SEARCHES_PER_MONTH=100
+USAGE_MAX_COST_PER_MONTH=10.00
 ```
 
-#### For Tavily
-
-```bash
-SEARCH_PROVIDER=tavily
-TAVILY_API_KEY=your_tavily_api_key_here
-```
-
-#### For Google (Legacy)
-
-```bash
-SEARCH_PROVIDER=google  # Optional, defaults to google for backwards compatibility
-GOOGLE_API_KEY=your_google_api_key
-GOOGLE_SEARCH_ENGINE_ID=your_custom_search_engine_id
-```
+**Get your API key:** https://serpapi.com/manage-api-key
 
 **Note:** No Anthropic API key is required. The server uses agent-based synthesis that leverages your existing Claude session.
 
@@ -202,12 +117,12 @@ USAGE_TRACKING_PERSIST=true
 USAGE_TRACKING_DB_PATH=./.mcp-usage-tracking.db
 
 # Set thresholds for warnings (optional)
-USAGE_MAX_SEARCHES_PER_MONTH=2000  # Alert at 80% and 100%
-USAGE_MAX_COST_PER_MONTH=10.00     # In USD
+USAGE_MAX_SEARCHES_PER_MONTH=100  # Alert at 80% and 100%
+USAGE_MAX_COST_PER_MONTH=10.00    # In USD
 ```
 
 **Benefits:**
-- Monitor usage across all providers
+- Monitor usage in real-time
 - Get warnings at 80% and 100% of limits
 - Prevent quota overruns
 - Track estimated costs
@@ -223,39 +138,32 @@ npm run start:v3
 npm run start:v3:http
 ```
 
-Expected output (with Brave):
+Expected output:
 ```
+Validating SerpAPI credentials...
+SerpAPI credentials validated successfully
+
 ============================================================
-Google Research MCP Server v3.0.0 (Enhanced)
+Google Search MCP Server v4.2.0 (SerpAPI)
 ============================================================
-Initializing search provider: brave
-✓ Using Brave Search as search provider
-  Free tier: 2,000 queries/month
-✓ Source quality assessment
-✓ Deduplication
-✓ AI synthesis: AGENT MODE (Claude will launch agents)
-  └─ No API key needed - uses your existing Claude session
-✓ Focus area analysis
-✓ Enhanced error handling
-✓ Cache metadata
+Using SerpAPI as search provider
+  Free tier: 100 searches/month
+Source quality assessment
+Deduplication
+AI synthesis: AGENT MODE (Claude will launch agents)
+  No API key needed - uses your existing Claude session
+Focus area analysis
+Enhanced error handling
+Cache metadata
 ============================================================
 Server running on STDIO
 ```
 
-Expected output (with Google):
-```
-Initializing search provider: google
-✓ Using Google Custom Search as search provider
-  Free tier: 100 queries/day
-WARNING: Google Custom Search will sunset on January 1, 2027
-    Consider migrating to Brave Search: https://brave.com/search/api/
-```
-
 With usage tracking enabled:
 ```
-✓ Using Brave Search as search provider
-✓ Usage tracking enabled
-✓ Usage tracking database initialized: ./.mcp-usage-tracking.db
+Using SerpAPI as search provider
+Usage tracking enabled
+Usage tracking database initialized: ./.mcp-usage-tracking.db
 ```
 
 ## Features
@@ -268,6 +176,7 @@ With usage tracking enabled:
 - Result categorization (academic, official docs, news, forums, etc.)
 - Automatic deduplication of results
 - Source authority ranking
+- Support for images, news, and video search
 
 #### 2. Content Extraction
 - Clean content extraction from web pages
@@ -404,7 +313,11 @@ This bypasses agent mode and calls the Anthropic API directly from the MCP serve
 src/
 ├── google-search-v3.ts              # Main MCP server (v3)
 ├── services/
-│   ├── google-search.service.ts     # Google Custom Search integration
+│   ├── providers/
+│   │   ├── serpapi-provider.ts      # SerpAPI integration
+│   │   ├── base-provider.ts         # Provider interface
+│   │   └── provider-factory.ts      # Provider creation
+│   ├── google-search.service.ts     # Search service layer
 │   ├── content-extractor.service.ts # Web content extraction
 │   ├── source-quality.service.ts    # Source ranking and scoring
 │   ├── deduplication.service.ts     # Duplicate detection
@@ -415,17 +328,17 @@ src/
 ### Data Flow
 
 ```
-Search Query → Google API → Results
-                              ↓
-                         Deduplication
-                              ↓
-                         Quality Scoring
-                              ↓
-                         Content Extraction
-                              ↓
-                         Agent Synthesis
-                              ↓
-                    Comprehensive Research Report
+Search Query → SerpAPI → Results
+                            ↓
+                       Deduplication
+                            ↓
+                       Quality Scoring
+                            ↓
+                       Content Extraction
+                            ↓
+                       Agent Synthesis
+                            ↓
+                  Comprehensive Research Report
 ```
 
 ## API Reference
@@ -511,12 +424,15 @@ Comprehensive research with AI synthesis.
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `GOOGLE_API_KEY` | Yes | - | Google Custom Search API key |
-| `GOOGLE_SEARCH_ENGINE_ID` | Yes | - | Custom Search Engine ID |
+| `SERPAPI_KEY` | Yes | - | SerpAPI API key |
 | `ANTHROPIC_API_KEY` | No | - | For Direct API mode only |
 | `USE_DIRECT_API` | No | false | Enable Direct API mode |
 | `MCP_TRANSPORT` | No | stdio | Transport mode: stdio or http |
 | `PORT` | No | 3000 | Port for HTTP mode |
+| `USAGE_TRACKING_ENABLED` | No | false | Enable usage tracking |
+| `USAGE_TRACKING_PERSIST` | No | false | Persist tracking to database |
+| `USAGE_MAX_SEARCHES_PER_MONTH` | No | 0 | Monthly search limit (0 = unlimited) |
+| `USAGE_MAX_COST_PER_MONTH` | No | 0 | Monthly cost limit in USD (0 = unlimited) |
 
 ## Performance
 
@@ -543,6 +459,35 @@ Comprehensive research with AI synthesis.
 
 ## Troubleshooting
 
+### Invalid SerpAPI Key (401/403)
+
+**Symptoms:** "Invalid SerpAPI Key" or "Access Denied" errors
+
+**Solutions:**
+1. Check SERPAPI_KEY is correct in your `.env` file
+2. Verify your key at: https://serpapi.com/manage-api-key
+3. Make sure there are no extra spaces when copying the key
+4. Ensure the key hasn't been revoked or expired
+
+### Rate Limit Exceeded (429)
+
+**Symptoms:** "Rate Limit Exceeded" or "Quota exceeded" errors
+
+**Solutions:**
+1. You exceeded 100 searches this month (free tier)
+2. Wait until next month for quota reset
+3. Or upgrade your plan: https://serpapi.com/pricing
+4. Monitor usage: https://serpapi.com/account
+
+### Network Errors
+
+**Symptoms:** "Cannot Reach SerpAPI" or connection timeouts
+
+**Solutions:**
+1. Check your internet connection
+2. Verify firewall/proxy settings allow connections to serpapi.com
+3. Check SerpAPI status: https://status.serpapi.com/
+
 ### Agent Mode Not Working
 
 **Symptoms:** Research returns basic concatenation instead of synthesis
@@ -559,34 +504,34 @@ Comprehensive research with AI synthesis.
 
 **Solutions:**
 1. Confirm running v3, not v2
-2. Check server startup output
+2. Check server startup output for errors
 3. Verify no TypeScript compilation errors
-
-### No Results Found
-
-**Solutions:**
-1. Verify Google API key is valid
-2. Check Custom Search Engine ID
-3. Ensure search engine has indexing enabled
-4. Try broader search terms
+4. Rebuild the project: `npm run build`
 
 ## Documentation
 
 - **[QUICK-START.md](QUICK-START.md)** - Fast setup guide (2 minutes)
 - **[AGENT-MODE.md](AGENT-MODE.md)** - Comprehensive agent mode documentation
-- **[SETUP-V3.md](SETUP-V3.md)** - Detailed setup and testing guide
+- **[SERPAPI-MIGRATION-GUIDE.md](SERPAPI-MIGRATION-GUIDE.md)** - Migration guide from other providers
 
 ## Version History
 
-### v3.0.0 (Current)
-- Agent-based synthesis (no API key required)
-- Source quality assessment and ranking
-- Comprehensive deduplication
-- Focus area analysis
-- Enhanced error handling with suggestions
-- Cache metadata transparency
-- Consistent preview lengths
-- Research depth differentiation
+### v4.2.0 (Current - serpapi-only branch)
+- **SerpAPI Integration** - Reliable Google search via SerpAPI as sole provider
+- **Simplified Architecture** - Single provider for easier maintenance
+- **Agent-based synthesis** - No API key required for synthesis
+- **Source quality assessment** - Automatic ranking by authority and relevance
+- **Comprehensive deduplication** - Remove duplicate and similar content
+- **Focus area analysis** - Dedicated analysis for specific topics
+- **Enhanced error handling** - Helpful suggestions for common issues
+- **Usage tracking** - Monitor searches and costs
+- **Cache metadata** - Transparency for cached results
+- **Research depth levels** - Basic, intermediate, and advanced research modes
+
+### v3.0.0 (main branch)
+- Multi-provider support (Google, Brave, Tavily)
+- Provider factory pattern
+- Usage tracking across providers
 
 ### v2.0.0
 - HTTP transport support
@@ -601,7 +546,7 @@ Comprehensive research with AI synthesis.
 
 ## Contributing
 
-Contributions are welcome. Please ensure:
+Contributions are welcome! Please ensure:
 
 1. Code follows existing style conventions
 2. All tests pass: `npm run build`
@@ -618,12 +563,12 @@ For issues, questions, or feature requests, please open an issue on GitHub.
 
 ## Credits
 
-- **Google Custom Search API** - Search functionality
+- **SerpAPI** - Google search API provider
 - **Anthropic Claude** - AI-powered research synthesis
 - **Mozilla Readability** - Content extraction
 - **MCP SDK** - Model Context Protocol integration
 
 ---
 
-**Version:** 3.0.0
-**Last Updated:** 2025-11-07
+**Version:** 4.2.0 (serpapi-only branch)
+**Last Updated:** 2026-01-31

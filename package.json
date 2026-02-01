@@ -1,7 +1,7 @@
 {
   "name": "google-search-mcp",
-  "version": "3.0.0",
-  "description": "Enhanced MCP server for Google search with AI-powered research synthesis, source quality assessment, and deduplication",
+  "version": "4.2.0",
+  "description": "Enhanced MCP server for Google search via SerpAPI with AI-powered research synthesis, source quality assessment, and deduplication",
   "type": "module",
   "bin": {
     "google-search-mcp": "./dist/google-search-v3.js"
@@ -37,9 +37,6 @@
     "readability": "^0.1.0",
     "turndown": "^7.2.0",
     "zod": "^3.24.1"
-  },
-  "optionalDependencies": {
-    "googleapis": "^144.0.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",

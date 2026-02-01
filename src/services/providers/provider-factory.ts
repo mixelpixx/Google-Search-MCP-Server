@@ -1,13 +1,11 @@
 import { BaseSearchProvider, ProviderError } from './base-provider.js';
-import { GoogleSearchProvider } from './google-provider.js';
-import { BraveSearchProvider } from './brave-provider.js';
-import { TavilySearchProvider } from './tavily-provider.js';
+import { SerpAPIProvider } from './serpapi-provider.js';
 import { TrackedProvider } from './tracked-provider.js';
 import { UsageTracker } from '../tracking/usage-tracker.js';
 
 /**
  * Factory for creating search providers
- * Implements the Factory pattern to create providers based on configuration
+ * Simplified to use SerpAPI as the sole provider
  */
 export class ProviderFactory {
   private static instance: ProviderFactory;
@@ -26,38 +24,17 @@ export class ProviderFactory {
   }
 
   /**
-   * Create and return the configured search provider
-   * Defaults to Google if SEARCH_PROVIDER is not set (backwards compatibility)
+   * Create and return the SerpAPI search provider
    */
   getProvider(): BaseSearchProvider {
     if (this.provider) {
       return this.provider;
     }
 
-    // Get provider type from environment, default to 'google' for backwards compatibility
-    const providerType = (process.env.SEARCH_PROVIDER?.toLowerCase() || 'google').trim();
-
-    console.error(`Initializing search provider: ${providerType}`);
+    console.error('Initializing search provider: serpapi');
 
     try {
-      switch (providerType) {
-        case 'google':
-          this.provider = new GoogleSearchProvider();
-          break;
-
-        case 'brave':
-          this.provider = new BraveSearchProvider();
-          break;
-
-        case 'tavily':
-          this.provider = new TavilySearchProvider();
-          break;
-
-        default:
-          console.warn(`⚠️  Unknown provider '${providerType}', falling back to Google`);
-          this.provider = new GoogleSearchProvider();
-          break;
-      }
+      this.provider = new SerpAPIProvider();
 
       const info = this.provider.getProviderInfo();
       console.error(`✓ Using ${info.displayName} as search provider`);
