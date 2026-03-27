@@ -1,5 +1,8 @@
+import { createRequire } from 'module';
 import { SearchResult, SearchFilters, SearchPaginationInfo } from '../../types.js';
 import { BaseSearchProvider, ProviderInfo, ProviderError, ProviderSearchResponse } from './base-provider.js';
+
+const require = createRequire(import.meta.url);
 
 /**
  * Google Custom Search provider implementation
